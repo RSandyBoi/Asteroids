@@ -13,13 +13,15 @@ class Player(CircleShape):
         b = self.position - forward * self.radius - right
         c = self.position - forward * self.radius + right
         return [a, b, c]
-    def draw(self, screen):
+    
+    def draw(self, screen): #draw player as triangle with white lines
         pygame.draw.polygon(screen, "white", self.triangle(), LINE_WIDTH)
-    def rotate(self, dt):
-        self.rotation += PLAYER_TURN_SPEED * dt
-    def update(self, dt):
-        keys = pygame.key.get_pressed()
 
+    def rotate(self, dt): #rotator method to change rotation based on turn speed and delta time
+        self.rotation += PLAYER_TURN_SPEED * dt
+
+    def update(self, dt): #basic control mapping for player movement
+        keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             self.rotate(-dt)
         if keys[pygame.K_d]:
@@ -28,7 +30,7 @@ class Player(CircleShape):
             self.move(dt)
         if keys[pygame.K_s]:
             self.move(-dt)
-    def move(self, dt):
+    def move(self, dt): #move method to update position based on rotation and speed
         unit_vector = pygame.Vector2(0, 1)
         rotated_vector = unit_vector.rotate(self.rotation)
         rotated_with_speed_vector = rotated_vector * PLAYER_SPEED * dt
